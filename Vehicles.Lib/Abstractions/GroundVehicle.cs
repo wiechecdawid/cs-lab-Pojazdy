@@ -16,7 +16,7 @@ namespace Vehicles.Lib.Abstractions
 
         public override void OnStateChange()
         {
-            if(State == Enums.VehicleState.stand)
+            if(State == Enums.VehicleState.hold)
             {
                 MinSpeed = 0;
                 MaxSpeed = 0;
@@ -39,7 +39,9 @@ namespace Vehicles.Lib.Abstractions
                 while (_speedometer > MinSpeed)
                     SlowDown(10);
 
-                State = Enums.VehicleState.stand;
+                State = Enums.VehicleState.hold;
+
+                Console.WriteLine($"The {GetType().Name} stopped");
             }
         }
     }

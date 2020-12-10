@@ -7,6 +7,6 @@ namespace Vehicles.Lib.Enums
     public enum VehicleState
     {
         movement,
-        stand
+        hold
     }
 }

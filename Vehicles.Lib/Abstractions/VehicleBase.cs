@@ -7,17 +7,17 @@ namespace Vehicles.Lib.Abstractions
     public abstract class VehicleBase : IStartable, IStoppable, IAccelerable
     {
         protected Enums.MovementEnvironment _environment;
-        protected Enums.VehicleState _state = Enums.VehicleState.stand;
+        protected Enums.VehicleState _state;
         protected Enums.VelocityUnit _unit;
 
-        protected int _speedometer = 0;
+        protected float _speedometer = 0;
 
-        public virtual int MinSpeed { get; set; }
-        public virtual int MaxSpeed { get; set; }
+        public virtual float MinSpeed { get; set; }
+        public virtual float MaxSpeed { get; set; }
         public virtual Enums.VehicleState State 
         { 
             get => _state; 
-            protected set
+            set
             {
                 _state = value;
                 OnStateChange();
@@ -26,13 +26,13 @@ namespace Vehicles.Lib.Abstractions
 
         public virtual void Start()
         {
-            if(State == Enums.VehicleState.stand)
+            if(State == Enums.VehicleState.hold)
             {
                State = Enums.VehicleState.movement;
                 
                 Console.WriteLine($"The {GetType().Name} has started.");
 
-                Accelerate(MinSpeed);
+                Accelerate((int)MinSpeed);
                 CheckSpeed();
             }
             else
@@ -45,7 +45,7 @@ namespace Vehicles.Lib.Abstractions
         {
             if(State == Enums.VehicleState.movement)
             {
-                int speed = acceleration + _speedometer;
+                float speed = acceleration + _speedometer;
                 if (speed >= MinSpeed && speed <= MaxSpeed)
                     _speedometer = acceleration;
                 else
@@ -69,5 +69,25 @@ namespace Vehicles.Lib.Abstractions
         }
 
         public abstract void OnStateChange();
+
+        public override string ToString()
+        {
+            return ToStringImpl();
+        }
+
+        public virtual string ToStringImpl()
+        {
+            var sb = new StringBuilder($"Vehicle Type: {GetType().Name}");
+            sb.AppendLine($"The vehicle is moving on {_environment}");
+
+            string state = State == Enums.VehicleState.movement ? "moving" : "standing still";
+            sb.AppendLine($"The vehicle is {state}");
+            sb.AppendLine($"The speed range is between {MinSpeed} and {MaxSpeed} {_unit}");
+
+            if (State == Enums.VehicleState.movement)
+                sb.AppendLine($"The vehicle moves with the speed of {_speedometer}.");
+
+            return sb.ToString();
+        }
     }
 }
