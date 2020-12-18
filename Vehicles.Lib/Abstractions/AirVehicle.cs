@@ -10,6 +10,7 @@ namespace Vehicles.Lib.Abstractions
         {
             _environment = Enums.MovementEnvironment.air;
             _unit = Enums.VelocityUnit.mps;
+            State = Enums.VehicleState.movement;
             MinSpeed = 20;
             MaxSpeed = 200;
         }
@@ -25,7 +26,7 @@ namespace Vehicles.Lib.Abstractions
 
         public virtual void TakeOff()
         {
-            Console.WriteLine("The flight has started...");
+            Console.WriteLine("The plane is taking off...");
         }
 
         public virtual void Land()
@@ -36,12 +37,21 @@ namespace Vehicles.Lib.Abstractions
 
         public override void OnStateChange()
         {
-            Stop();
+            if (State == Enums.VehicleState.movement)
+            {
+                MinSpeed = 20;
+                MaxSpeed = 200;
+            }                
         }
 
         public override void Stop()
         {
             Console.WriteLine("You cannot stop the vehicle in air. Please land first");
+        }
+
+        public override string ToString()
+        {
+            return String.Format("Air Vehicle\n{0}", base.ToString());
         }
     }
 }

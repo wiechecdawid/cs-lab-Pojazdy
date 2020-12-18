@@ -10,10 +10,15 @@ namespace Vehicles.Lib.Abstractions
         protected Enums.VehicleState _state;
         protected Enums.VelocityUnit _unit;
 
-        protected float _speedometer = 0;
+        protected double _speedometer = 0;
 
-        public virtual float MinSpeed { get; set; }
-        public virtual float MaxSpeed { get; set; }
+        protected VehicleBase()
+        {
+            State = Enums.VehicleState.hold;
+        }
+
+        public virtual double MinSpeed { get; set; }
+        public virtual double MaxSpeed { get; set; }
         public virtual Enums.VehicleState State 
         { 
             get => _state; 
@@ -24,6 +29,8 @@ namespace Vehicles.Lib.Abstractions
             }
         }
 
+        public Enums.VelocityUnit GetUnit() => _unit;
+
         public virtual void Start()
         {
             if(State == Enums.VehicleState.hold)
@@ -33,7 +40,6 @@ namespace Vehicles.Lib.Abstractions
                 Console.WriteLine($"The {GetType().Name} has started.");
 
                 Accelerate((int)MinSpeed);
-                CheckSpeed();
             }
             else
                 Console.WriteLine($"The {GetType().Name} is already moving");
@@ -45,9 +51,9 @@ namespace Vehicles.Lib.Abstractions
         {
             if(State == Enums.VehicleState.movement)
             {
-                float speed = acceleration + _speedometer;
+                double speed = acceleration + _speedometer;
                 if (speed >= MinSpeed && speed <= MaxSpeed)
-                    _speedometer = acceleration;
+                    _speedometer = speed;
                 else
                     _speedometer = speed < MinSpeed ? MinSpeed : MaxSpeed;
             }

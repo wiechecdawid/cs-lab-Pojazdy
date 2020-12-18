@@ -6,34 +6,34 @@ namespace Vehicles.Lib.Helpers
 {
     public static class VelocityUnitConverter
     {
-        public static int KmphToKnots(int kmph)
+        public static double KmphToKnots(double kmph)
         {
-            throw new NotImplementedException();
+            return kmph / 1.852;
         }
 
-        public static int KmphToMps(int kmph)
+        public static double KmphToMps(double kmph)
         {
-            throw new NotImplementedException();
+            return kmph * 1000 / 3600;
         }
 
-        public static int MpsToKmph(int mps)
+        public static double MpsToKmph(double mps)
         {
-            throw new NotImplementedException();
+            return mps / 1000 * 3600;
         }
 
-        public static int MpsToKnots(int mps)
+        public static double MpsToKnots(double mps)
         {
-            throw new NotImplementedException();
+            return mps / 1852 * 3600;
         }
 
-        public static int KnotsToMps(int knots)
+        public static double KnotsToMps(double knots)
         {
-            throw new NotImplementedException();
+            return knots * 1852 / 3600;
         }
 
-        public static int KnotsToKmph(int knots)
+        public static double KnotsToKmph(double knots)
         {
-            throw new NotImplementedException();
+            return knots * 1.852;
         }
     }
 }

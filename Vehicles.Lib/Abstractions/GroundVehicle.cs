@@ -8,7 +8,7 @@ namespace Vehicles.Lib.Abstractions
     {
         protected int _wheels;
 
-        protected GroundVehicle()
+        protected GroundVehicle() : base()
         {
             _environment = Enums.MovementEnvironment.ground;
             _unit = Enums.VelocityUnit.kmph;
@@ -20,15 +20,11 @@ namespace Vehicles.Lib.Abstractions
             {
                 MinSpeed = 0;
                 MaxSpeed = 0;
-
-                Console.WriteLine($"The {GetType().Name} stopped.");
             }
             else
             {
                 MinSpeed = 1;
                 MaxSpeed = 350;
-
-                Console.WriteLine($"The {GetType().Name} started.");
             }
         }
 
@@ -39,10 +35,16 @@ namespace Vehicles.Lib.Abstractions
                 while (_speedometer > MinSpeed)
                     SlowDown(10);
 
+                _speedometer = 0;
                 State = Enums.VehicleState.hold;
 
                 Console.WriteLine($"The {GetType().Name} stopped");
             }
+        }
+
+        public override string ToString()
+        {
+            return String.Format("Ground Vehicle\nNumber of Wheels: {0}\n{1}",_wheels,base.ToString());
         }
     }
 }
